@@ -25,6 +25,20 @@ ThemeData get lightTheme => ThemeData(
       backgroundColor: MaterialTheme.lightScheme().inversePrimary,
       foregroundColor: Colors.black,
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor:
+            MaterialStateProperty.all(MaterialTheme.lightScheme().primary),
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+      side: BorderSide(
+        color: MaterialTheme.lightScheme().primary,
+        width: 2,
+      ),
+    )),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: MaterialTheme.lightScheme().primary,
       foregroundColor: Colors.white,

@@ -45,22 +45,27 @@ TextTheme customTextTheme(TextTheme base) {
     bodyLarge: base.bodyLarge?.copyWith(
       fontFamily: 'AnekDevanagari',
       fontWeight: FontWeight.normal,
+      letterSpacing: 1.5,
     ),
     bodyMedium: base.bodyMedium?.copyWith(
       fontFamily: 'AnekDevanagari',
       fontWeight: FontWeight.normal,
+      letterSpacing: 1.5,
     ),
     bodySmall: base.bodySmall?.copyWith(
       fontFamily: 'AnekDevanagari',
       fontWeight: FontWeight.normal,
+      letterSpacing: 1.5,
     ),
     labelLarge: base.labelLarge?.copyWith(
       fontFamily: 'AnekDevanagari',
-      fontWeight: FontWeight.normal,
+      fontWeight: FontWeight.bold,
+      letterSpacing: 1.5,
     ),
     labelSmall: base.labelSmall?.copyWith(
       fontFamily: 'AnekDevanagari',
       fontWeight: FontWeight.normal,
+      letterSpacing: 1.5,
     ),
   );
 }
