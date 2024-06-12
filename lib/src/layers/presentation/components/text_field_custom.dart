@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFieldCustom extends StatefulWidget {
   TextEditingController controller;
@@ -6,11 +7,13 @@ class TextFieldCustom extends StatefulWidget {
   bool isSecret;
   String label;
   bool isObscure;
+  List<TextInputFormatter>? inputFormatters;
 
   TextFieldCustom({
     super.key,
     this.isSecret = false,
     this.isObscure = false,
+    this.inputFormatters,
     required this.controller,
     required this.prefixIcon,
     required this.label,
@@ -32,6 +35,7 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: TextFormField(
+        inputFormatters: widget.inputFormatters,
         obscureText: widget.isSecret,
         controller: widget.controller,
         decoration: InputDecoration(

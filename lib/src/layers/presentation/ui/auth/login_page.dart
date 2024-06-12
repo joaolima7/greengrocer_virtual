@@ -68,9 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                       isObscure: true,
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/signup');
-                      },
+                      onPressed: () {},
                       child: Text(
                         'Entrar',
                         style: TextStyle(fontSize: sizeScreen.width * .038),
@@ -102,7 +100,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     OutlinedButton(
                       //style: OutlinedButton.styleFrom(side: BorderSide(width: 2)),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/signup');
+                      },
                       child: Text(
                         'Cadastre-se',
                         style: TextStyle(fontSize: sizeScreen.width * .038),

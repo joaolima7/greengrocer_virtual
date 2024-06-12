@@ -12,7 +12,7 @@ class GreengrocerApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const LoginPage(),
-        '/signup': (context) => const SignUpPage(),
+        '/signup': (context) => SignUpPage(),
       },
       theme: lightTheme,
       darkTheme: darkTheme,
