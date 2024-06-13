@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/components/category_tile.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/components/item_tile.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/components/text_field_custom.dart';
+import 'package:greengrocer_virtual/src/core/app_data/app_data.dart' as appData;
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -12,13 +15,7 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   TextEditingController _txtSearch = TextEditingController();
-  List<String> _categories = [
-    'Frutas',
-    'Grãos',
-    'Verduras',
-    'Tenmperos',
-    'Cereais',
-  ];
+
   String _selectedCategory = 'Frutas';
 
   @override
@@ -65,27 +62,51 @@ class _HomeTabState extends State<HomeTab> {
               containBorder: false,
             ),
           ),
-          Container(
-            padding: const EdgeInsets.only(left: 5),
-            height: sizeScreen.width * .063,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
+          Padding(
+            padding: EdgeInsets.only(
+              bottom: sizeScreen.width * .04,
+            ),
+            child: Container(
+              padding: const EdgeInsets.only(left: 5),
+              height: sizeScreen.width * .063,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, index) {
+                  return CategoryTile(
+                    category: appData.categories[index],
+                    isSelected: appData.categories[index] == _selectedCategory,
+                    sizeScreen: sizeScreen.width,
+                    onPressed: () {
+                      setState(() {
+                        _selectedCategory = appData.categories[index];
+                      });
+                    },
+                  );
+                },
+                separatorBuilder: (_, index) => SizedBox(
+                  width: sizeScreen.width * .03,
+                ),
+                itemCount: appData.categories.length,
+              ),
+            ),
+          ),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              physics: const BouncingScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 9 / 11.5,
+              ),
+              itemCount: appData.items.length,
               itemBuilder: (_, index) {
-                return CategoryTile(
-                  category: _categories[index],
-                  isSelected: _categories[index] == _selectedCategory,
-                  sizeScreen: sizeScreen.width,
-                  onPressed: () {
-                    setState(() {
-                      _selectedCategory = _categories[index];
-                    });
-                  },
+                return ItemTile(
+                  item: appData.items[index],
+                  size: sizeScreen.width,
                 );
               },
-              separatorBuilder: (_, index) => SizedBox(
-                width: sizeScreen.width * .03,
-              ),
-              itemCount: _categories.length,
             ),
           ),
         ],
