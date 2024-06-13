@@ -5,18 +5,22 @@ class TextFieldCustom extends StatefulWidget {
   TextEditingController controller;
   Icon prefixIcon;
   bool isSecret;
-  String label;
+  String? label;
+  String? hintText;
   bool isObscure;
+  bool containBorder;
   List<TextInputFormatter>? inputFormatters;
 
   TextFieldCustom({
     super.key,
     this.isSecret = false,
     this.isObscure = false,
+    this.containBorder = true,
     this.inputFormatters,
+    this.hintText,
+    this.label,
     required this.controller,
     required this.prefixIcon,
-    required this.label,
   });
 
   @override
@@ -39,7 +43,8 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
         obscureText: widget.isSecret,
         controller: widget.controller,
         decoration: InputDecoration(
-          label: Text(widget.label),
+          hintText: widget.hintText != null ? widget.hintText : null,
+          label: widget.label != null ? Text(widget.label!) : null,
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.isObscure
               ? widget.isSecret
@@ -64,6 +69,14 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
           isDense: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25),
+            borderSide: widget.containBorder
+                ? const BorderSide(
+                    width: 0,
+                  )
+                : const BorderSide(
+                    width: 0,
+                    style: BorderStyle.none,
+                  ),
           ),
         ),
       ),

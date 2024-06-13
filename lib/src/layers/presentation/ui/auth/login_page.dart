@@ -68,7 +68,10 @@ class _LoginPageState extends State<LoginPage> {
                       isObscure: true,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/base', (route) => false);
+                      },
                       child: Text(
                         'Entrar',
                         style: TextStyle(fontSize: sizeScreen.width * .038),
