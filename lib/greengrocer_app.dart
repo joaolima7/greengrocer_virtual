@@ -3,6 +3,7 @@ import 'package:greengrocer_virtual/src/core/config/themes/theme_data.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/auth/login_page.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/auth/signup_page.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/base/base_screen.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/ui/pages/product/datail_product.dart';
 
 class GreengrocerApp extends StatelessWidget {
   const GreengrocerApp({super.key});

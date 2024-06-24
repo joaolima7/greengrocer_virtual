@@ -36,7 +36,7 @@ class _HomeTabState extends State<HomeTab> {
             child: InkWell(
               onTap: () {},
               child: const Badge(
-                label: Text('1'),
+                label: Text('2'),
                 child: Padding(
                   padding: EdgeInsets.all(7),
                   child: Icon(Icons.shopping_cart),

@@ -1,3 +1,4 @@
+import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/item.dart';
 
 Item apple = Item(
@@ -5,7 +6,7 @@ Item apple = Item(
   imgUrl: 'assets/images/maca.png',
   unit: 'kg',
   price: 5.5,
-  description: 'A melhor maçã da região!',
+  description: 'A melhor Maçã da região!',
 );
 
 Item grapple = Item(
@@ -13,7 +14,7 @@ Item grapple = Item(
   imgUrl: 'assets/images/uva.png',
   unit: 'kg',
   price: 9.0,
-  description: 'A melhor uva da região!',
+  description: 'A melhor Uva da região!',
 );
 
 Item kiwi = Item(
@@ -21,15 +22,45 @@ Item kiwi = Item(
   imgUrl: 'assets/images/kiwi.png',
   unit: 'kg',
   price: 55,
-  description: 'O melhor kiwi da região!',
+  description: 'O melhor Kiwi da região!',
 );
 
-List<Item> items = [apple, grapple, kiwi];
+Item abacaxi = Item(
+  itemName: 'Abacaxi',
+  imgUrl: 'assets/images/abacaxi.png',
+  unit: 'un',
+  price: 9.90,
+  description: 'O melhor Abacaxi da região!',
+);
+
+Item pera = Item(
+  itemName: 'Pera',
+  imgUrl: 'assets/images/pera.png',
+  unit: 'kg',
+  price: 13.49,
+  description: 'A melhor Pera da região!',
+);
+
+Item melancia = Item(
+  itemName: 'Melancia',
+  imgUrl: 'assets/images/melancia.png',
+  unit: 'kg',
+  price: 10,
+  description: 'A melhor Melancia da região!',
+);
+
+List<Item> items = [apple, grapple, kiwi, abacaxi, pera, melancia];
+
+List<CartItem> cartItems = [
+  CartItem(item: apple, quantity: 2),
+  CartItem(item: melancia, quantity: 5),
+  CartItem(item: abacaxi, quantity: 3),
+];
 
 List<String> categories = [
   'Frutas',
   'Grãos',
   'Verduras',
-  'Tenmperos',
+  'Temperos',
   'Cereais',
 ];
