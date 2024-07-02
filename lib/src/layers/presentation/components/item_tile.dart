@@ -5,20 +5,32 @@ import 'package:greengrocer_virtual/src/layers/domain/entities/item.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/pages/product/datail_product.dart';
 
 class ItemTile extends StatefulWidget {
+  final Item item;
+  final FormatterService formatterService = FormatterService();
+  final double size;
+  final void Function(GlobalKey, Item) addToCart;
+
   ItemTile({
     super.key,
     required this.item,
     required this.size,
+    required this.addToCart,
   });
 
-  final Item item;
-  final FormatterService formatterService = FormatterService();
-  double size;
   @override
   State<ItemTile> createState() => _ItemTileState();
 }
 
 class _ItemTileState extends State<ItemTile> {
+  GlobalKey imageKey = GlobalKey();
+  IconData tileIcon = Icons.add_shopping_cart_outlined;
+
+  Future<void> switchIcon() async {
+    setState(() => tileIcon = Icons.check);
+    await Future.delayed(const Duration(milliseconds: 1500));
+    setState(() => tileIcon = Icons.add_shopping_cart_outlined);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -26,9 +38,11 @@ class _ItemTileState extends State<ItemTile> {
         InkWell(
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => DetailProduct(item: widget.item)));
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailProduct(item: widget.item),
+              ),
+            );
           },
           child: Card(
             elevation: 1,
@@ -42,10 +56,14 @@ class _ItemTileState extends State<ItemTile> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Expanded(
+                    child: Container(
+                      key: imageKey,
                       child: Hero(
-                    tag: widget.item.imgUrl,
-                    child: Image.asset(widget.item.imgUrl),
-                  )),
+                        tag: widget.item.imgUrl,
+                        child: Image.asset(widget.item.imgUrl),
+                      ),
+                    ),
+                  ),
                   Text(
                     widget.item.itemName,
                     style: TextStyle(
@@ -83,7 +101,10 @@ class _ItemTileState extends State<ItemTile> {
           top: 5,
           right: 5,
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              widget.addToCart(imageKey, widget.item);
+              switchIcon();
+            },
             child: Container(
               decoration: BoxDecoration(
                 color: MaterialTheme.lightScheme().primary,
@@ -94,10 +115,17 @@ class _ItemTileState extends State<ItemTile> {
               ),
               child: Padding(
                 padding: EdgeInsets.all(widget.size * .01),
-                child: Icon(
-                  Icons.add_shopping_cart_outlined,
-                  color: Colors.white,
-                  size: widget.size * .055,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, animation) {
+                    return ScaleTransition(scale: animation, child: child);
+                  },
+                  child: Icon(
+                    tileIcon,
+                    key: ValueKey<IconData>(tileIcon),
+                    color: Colors.white,
+                    size: widget.size * .055,
+                  ),
                 ),
               ),
             ),

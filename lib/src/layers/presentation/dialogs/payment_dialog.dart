@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
 import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
+import 'package:greengrocer_virtual/src/core/utils/utils_dialogs.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/order.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -8,6 +11,7 @@ class PaymentDialog extends StatelessWidget {
   double sizeWidth;
   final Order order;
   final FormatterService _formatterService = FormatterService();
+  final UtilsDialogs _utilsDialogs = UtilsDialogs();
   final String _pixCode = 'dsjhjshjkdhskhdskjdhsjkhdjk';
 
   PaymentDialog({
@@ -54,14 +58,8 @@ class PaymentDialog extends StatelessWidget {
               OutlinedButton.icon(
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: _pixCode));
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Código Pix copiado!',
-                        style: TextStyle(fontSize: sizeWidth * .04),
-                      ),
-                    ),
-                  );
+                  _utilsDialogs.showToast(
+                      message: 'Código Pix Copiado!', sizeWidth: sizeWidth);
                 },
                 icon: Icon(
                   Icons.copy,

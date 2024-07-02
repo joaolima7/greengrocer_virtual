@@ -24,6 +24,7 @@ dependencies:
   validatorless: ^1.2.3
   qr_flutter: ^4.1.0
   add_to_cart_animation: ^2.0.3
+  fluttertoast: ^8.2.6
 
 dev_dependencies:
   flutter_test:
