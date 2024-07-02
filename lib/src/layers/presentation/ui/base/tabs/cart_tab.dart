@@ -5,6 +5,7 @@ import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
 import 'package:greengrocer_virtual/src/core/app_data/app_data.dart' as appData;
 import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/components/cart_tile.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/dialogs/payment_dialog.dart';
 
 class CartTab extends StatefulWidget {
   const CartTab({super.key});
@@ -47,7 +48,7 @@ class _CartTabState extends State<CartTab> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Carrinho',
+          'Meu Carrinho',
           style:
               TextStyle(fontSize: sizeScreen.width * .065, color: Colors.white),
         ),
@@ -60,17 +61,21 @@ class _CartTabState extends State<CartTab> {
                 horizontal: 6,
                 vertical: 10,
               ),
-              child: ListView.builder(
-                itemCount: appData.cartItems.length,
-                itemBuilder: (_, index) {
-                  return CartTile(
-                    cartItem: appData.cartItems[index],
-                    sizeScreen: sizeScreen.width,
-                    remove: removeItemFromCart,
-                    onQuantityChanged: cartTotalPrice,
-                  );
-                },
-              ),
+              child: appData.cartItems.isEmpty
+                  ? const Center(
+                      child: Text('Carrinho Vazio!'),
+                    )
+                  : ListView.builder(
+                      itemCount: appData.cartItems.length,
+                      itemBuilder: (_, index) {
+                        return CartTile(
+                          cartItem: appData.cartItems[index],
+                          sizeScreen: sizeScreen.width,
+                          remove: removeItemFromCart,
+                          onQuantityChanged: cartTotalPrice,
+                        );
+                      },
+                    ),
             ),
           ),
           Container(
@@ -106,7 +111,19 @@ class _CartTabState extends State<CartTab> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      bool? result = await showOrderConfirmation();
+
+                      if (result == true)
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return PaymentDialog(
+                                sizeWidth: sizeScreen.width,
+                                order: appData.orders.first,
+                              );
+                            });
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -127,6 +144,32 @@ class _CartTabState extends State<CartTab> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<bool?> showOrderConfirmation() {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Confirmação'),
+          content: const Text('Deseja realmente concluir o pedido?'),
+          actions: [
+            OutlinedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text('Não'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text('Sim'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

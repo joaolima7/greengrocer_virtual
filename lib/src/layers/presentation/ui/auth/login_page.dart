@@ -102,7 +102,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     OutlinedButton(
-                      //style: OutlinedButton.styleFrom(side: BorderSide(width: 2)),
                       onPressed: () {
                         Navigator.pushNamed(context, '/signup');
                       },

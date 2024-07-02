@@ -1,5 +1,7 @@
 import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/item.dart';
+import 'package:greengrocer_virtual/src/layers/domain/entities/order.dart';
+import 'package:greengrocer_virtual/src/layers/domain/entities/user.dart';
 
 Item apple = Item(
   itemName: 'Maçã',
@@ -63,4 +65,31 @@ List<String> categories = [
   'Verduras',
   'Temperos',
   'Cereais',
+];
+
+User user = User(
+  name: 'João Caetano Lima',
+  email: 'joaocaetanodev@gmail.com',
+  phone: '17982026102',
+  cpf: '07774129189',
+  senha: '123',
+);
+
+List<Order> orders = [
+  Order(
+    id: '1',
+    createdDateTime: DateTime.parse('2025-09-30 16:00:10.234'),
+    overdueDateTime: DateTime.parse('2025-09-30 17:00:10.234'),
+    items: cartItems,
+    status: 'pending_payment',
+    copyAndPaste: 'dbjdkjsbdks',
+  ),
+  Order(
+    id: '2',
+    createdDateTime: DateTime.parse('2024-07-01 16:00:10.234'),
+    overdueDateTime: DateTime.parse('2024-07-01 17:00:10.234'),
+    items: cartItems,
+    status: 'delivered',
+    copyAndPaste: 'dbjdkjsbdks',
+  ),
 ];

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
+import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/components/text_field_custom.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
@@ -12,16 +13,12 @@ class SignUpPage extends StatelessWidget {
     filter: {'#': RegExp(r'[0-9]')},
   );
 
-  final telephoneFormatter = MaskTextInputFormatter(
-    mask: '(##) # ####-####',
-    filter: {'#': RegExp(r'[0-9]')},
-  );
   TextEditingController _txtEmail = TextEditingController();
   TextEditingController _txtPassword = TextEditingController();
   TextEditingController _txtTelephone = TextEditingController();
   TextEditingController _txtCPF = TextEditingController();
   TextEditingController _txtName = TextEditingController();
-
+  FormatterService _formatterService = FormatterService();
   @override
   Widget build(BuildContext context) {
     var sizeScreen = MediaQuery.of(context).size;
@@ -85,7 +82,7 @@ class SignUpPage extends StatelessWidget {
                         label: 'Celular',
                         controller: _txtTelephone,
                         prefixIcon: const Icon(Icons.phone_rounded),
-                        inputFormatters: [telephoneFormatter],
+                        inputFormatters: [_formatterService.telephoneFormatter],
                       ),
                       TextFieldCustom(
                         label: 'CPF',

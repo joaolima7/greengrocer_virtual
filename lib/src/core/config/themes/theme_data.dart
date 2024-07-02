@@ -21,6 +21,9 @@ ThemeData get lightTheme => ThemeData(
       textTheme: customTextTheme(ThemeData.light().textTheme),
       colorScheme: MaterialTheme.lightScheme(),
       scaffoldBackgroundColor: Colors.white70,
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: MaterialTheme.lightScheme().primary,
+      ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.white,
