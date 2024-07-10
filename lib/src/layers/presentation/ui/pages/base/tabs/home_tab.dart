@@ -2,10 +2,11 @@ import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/item.dart';
-import 'package:greengrocer_virtual/src/layers/presentation/components/category_tile.dart';
-import 'package:greengrocer_virtual/src/layers/presentation/components/item_tile.dart';
-import 'package:greengrocer_virtual/src/layers/presentation/components/text_field_custom.dart';
-import 'package:greengrocer_virtual/src/core/app_data/app_data.dart' as appData;
+import 'package:greengrocer_virtual/src/layers/presentation/ui/components/category_tile.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/ui/components/item_tile.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/ui/components/text_field_custom.dart';
+import 'package:greengrocer_virtual/src/layers/data/datasources/app_data.dart'
+    as appData;
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});

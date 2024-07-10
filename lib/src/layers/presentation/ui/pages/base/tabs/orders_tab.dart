@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:greengrocer_virtual/src/core/app_data/app_data.dart' as appData;
-import 'package:greengrocer_virtual/src/layers/presentation/components/order_tile.dart';
+import 'package:greengrocer_virtual/src/layers/data/datasources/app_data.dart'
+    as appData;
+import 'package:greengrocer_virtual/src/layers/presentation/ui/components/order_tile.dart';
 
 class OrdersTab extends StatefulWidget {
   const OrdersTab({super.key});

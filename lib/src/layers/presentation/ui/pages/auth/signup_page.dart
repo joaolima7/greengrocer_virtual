@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
 import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
-import 'package:greengrocer_virtual/src/layers/presentation/components/text_field_custom.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/ui/components/text_field_custom.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class SignUpPage extends StatelessWidget {

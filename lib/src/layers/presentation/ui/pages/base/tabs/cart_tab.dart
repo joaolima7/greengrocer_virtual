@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
 import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
-import 'package:greengrocer_virtual/src/core/app_data/app_data.dart' as appData;
+import 'package:greengrocer_virtual/src/layers/data/datasources/app_data.dart'
+    as appData;
 import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
-import 'package:greengrocer_virtual/src/layers/presentation/components/cart_tile.dart';
-import 'package:greengrocer_virtual/src/layers/presentation/dialogs/payment_dialog.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/ui/components/cart_tile.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/ui/dialogs/payment_dialog.dart';
 
 class CartTab extends StatefulWidget {
   const CartTab({super.key});

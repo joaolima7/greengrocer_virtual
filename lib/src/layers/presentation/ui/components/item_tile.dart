@@ -26,9 +26,17 @@ class _ItemTileState extends State<ItemTile> {
   IconData tileIcon = Icons.add_shopping_cart_outlined;
 
   Future<void> switchIcon() async {
-    setState(() => tileIcon = Icons.check);
-    await Future.delayed(const Duration(milliseconds: 1500));
-    setState(() => tileIcon = Icons.add_shopping_cart_outlined);
+    if (mounted) {
+      setState(() {
+        tileIcon = Icons.check;
+      });
+      await Future.delayed(const Duration(milliseconds: 1500));
+      if (mounted) {
+        setState(() {
+          tileIcon = Icons.add_shopping_cart_outlined;
+        });
+      }
+    }
   }
 
   @override

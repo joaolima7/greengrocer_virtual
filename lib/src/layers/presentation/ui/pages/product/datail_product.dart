@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
 import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/item.dart';
-import 'package:greengrocer_virtual/src/layers/presentation/components/quantity_custom.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/ui/components/quantity_custom.dart';
 
 class DetailProduct extends StatefulWidget {
   DetailProduct({

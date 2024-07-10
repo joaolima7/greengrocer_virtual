@@ -21,7 +21,8 @@ class Order {
     calculateTotal();
   }
 
-  void calculateTotal() {
+  double calculateTotal() {
     total = items.fold(0, (sum, item) => sum + item.totalPrice());
+    return total;
   }
 }

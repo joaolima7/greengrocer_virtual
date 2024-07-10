@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/order.dart';
-import 'package:greengrocer_virtual/src/layers/presentation/components/order_status.dart';
-import 'package:greengrocer_virtual/src/layers/presentation/dialogs/payment_dialog.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/ui/components/order_status.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/ui/dialogs/payment_dialog.dart';
 
 class OrderTile extends StatelessWidget {
   OrderTile({
@@ -14,7 +12,7 @@ class OrderTile extends StatelessWidget {
     required this.order,
   });
 
-  final Order order;
+  Order order;
   double sizeWidth;
   final FormatterService _formatterService = FormatterService();
 
@@ -93,7 +91,8 @@ class OrderTile extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: _formatterService.priceToCurrency(order.total),
+                      text: _formatterService
+                          .priceToCurrency(order.calculateTotal()),
                     ),
                   ]),
             ),

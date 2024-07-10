@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
-import 'package:greengrocer_virtual/src/layers/presentation/components/text_field_custom.dart';
-import 'package:greengrocer_virtual/src/core/app_data/app_data.dart' as appData;
+import 'package:greengrocer_virtual/src/layers/presentation/ui/components/text_field_custom.dart';
+import 'package:greengrocer_virtual/src/layers/data/datasources/app_data.dart'
+    as appData;
 import 'package:validatorless/validatorless.dart';
 
 class ProfileTab extends StatefulWidget {
