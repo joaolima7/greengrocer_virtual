@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/font_theme.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
 
@@ -11,10 +11,6 @@ ThemeData get darkTheme => ThemeData(
         centerTitle: true,
       ),
     );
-
-ThemeData get darkMediumConstrastTheme => ThemeData();
-
-ThemeData get darkHightConstrastTheme => ThemeData();
 
 ThemeData get lightTheme => ThemeData(
       useMaterial3: true,
@@ -69,7 +65,3 @@ ThemeData get lightTheme => ThemeData(
         textColor: Colors.white,
       ),
     );
-
-ThemeData get lightMediumConstrastTheme => ThemeData();
-
-ThemeData get lightHightConstrastTheme => ThemeData();

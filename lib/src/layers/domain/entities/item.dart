@@ -1,16 +1,19 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 class Item {
+  String? id;
   String itemName;
   String imgUrl;
   String unit;
   double price;
-  String description;
+  String? description;
+  String? image;
 
   Item({
     required this.itemName,
     required this.imgUrl,
     required this.unit,
     required this.price,
-    required this.description,
+    this.description,
+    this.image,
+    this.id,
   });
 }

@@ -24,10 +24,10 @@ class _ProfileTabState extends State<ProfileTab> {
       TextEditingController(text: appData.user.name);
 
   final TextEditingController _txtPhone =
-      TextEditingController(text: appData.user.phone);
+      TextEditingController(text: appData.user.phone.toString());
 
   final TextEditingController _txtCPF =
-      TextEditingController(text: appData.user.cpf);
+      TextEditingController(text: appData.user.cpf.toString());
 
   final FormatterService _formatterService = FormatterService();
 

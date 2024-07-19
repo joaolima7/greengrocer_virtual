@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/auth/auth_controller.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/components/text_field_custom.dart';
+import 'package:validatorless/validatorless.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,6 +14,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final AuthController authController = GetIt.I.get<AuthController>();
   TextEditingController _txtEmail = TextEditingController();
   TextEditingController _txtSenha = TextEditingController();
   @override
@@ -52,65 +58,97 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(45),
                     )),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    TextFieldCustom(
-                      label: 'Email',
-                      controller: _txtEmail,
-                      prefixIcon: const Icon(Icons.email),
-                    ),
-                    TextFieldCustom(
-                      label: 'Senha',
-                      controller: _txtSenha,
-                      prefixIcon: const Icon(Icons.password),
-                      isSecret: true,
-                      isObscure: true,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/base', (route) => false);
-                      },
-                      child: Text(
-                        'Entrar',
-                        style: TextStyle(fontSize: sizeScreen.width * .038),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      TextFieldCustom(
+                        label: 'Email',
+                        controller: _txtEmail,
+                        prefixIcon: const Icon(Icons.email),
+                        validator: Validatorless.multiple([
+                          Validatorless.required('Campo Obrigatório!'),
+                          Validatorless.email('Digite um email válido!'),
+                        ]),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: const Text('Esqueceu a Senha?'),
-                        style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all(Colors.red),
+                      TextFieldCustom(
+                        label: 'Senha',
+                        controller: _txtSenha,
+                        prefixIcon: const Icon(Icons.password),
+                        isSecret: true,
+                        isObscure: true,
+                        validator: Validatorless.multiple([
+                          Validatorless.required('Campo Obrigatório!'),
+                          Validatorless.min(
+                              6, 'A senha deve ter pelo menos 6 caracteres!'),
+                        ]),
+                      ),
+                      GetX<AuthController>(
+                        init: authController,
+                        builder: (authController) {
+                          return ElevatedButton(
+                            onPressed: authController.isLoading.value
+                                ? null
+                                : () async {
+                                    FocusScope.of(context).unfocus();
+                                    if (_formKey.currentState!.validate()) {
+                                      await authController.signIn(
+                                        email: _txtEmail.text,
+                                        password: _txtSenha.text,
+                                        context: context,
+                                      );
+                                    }
+                                  },
+                            child: authController.isLoading.value
+                                ? Container(
+                                    width: sizeScreen.width * .045,
+                                    height: sizeScreen.width * .045,
+                                    child: CircularProgressIndicator(
+                                        color: Colors.white))
+                                : Text(
+                                    'Entrar',
+                                    style: TextStyle(
+                                        fontSize: sizeScreen.width * .038),
+                                  ),
+                          );
+                        },
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: const Text('Esqueceu a Senha?'),
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.red),
+                          ),
                         ),
                       ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(child: Divider()),
-                          Padding(
-                            padding: EdgeInsets.only(right: 8, left: 8),
-                            child: Text('Ou'),
-                          ),
-                          Expanded(child: Divider()),
-                        ],
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(child: Divider()),
+                            Padding(
+                              padding: EdgeInsets.only(right: 8, left: 8),
+                              child: Text('Ou'),
+                            ),
+                            Expanded(child: Divider()),
+                          ],
+                        ),
                       ),
-                    ),
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/signup');
-                      },
-                      child: Text(
-                        'Cadastre-se',
-                        style: TextStyle(fontSize: sizeScreen.width * .038),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/signup');
+                        },
+                        child: Text(
+                          'Cadastre-se',
+                          style: TextStyle(fontSize: sizeScreen.width * .038),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

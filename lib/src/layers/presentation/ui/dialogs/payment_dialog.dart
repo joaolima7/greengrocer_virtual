@@ -58,7 +58,7 @@ class PaymentDialog extends StatelessWidget {
               OutlinedButton.icon(
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: _pixCode));
-                  _utilsDialogs.showToast(
+                  UtilsDialogs.showToast(
                       message: 'Código Pix Copiado!', sizeWidth: sizeWidth);
                 },
                 icon: Icon(

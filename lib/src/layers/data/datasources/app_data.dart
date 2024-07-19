@@ -70,9 +70,9 @@ List<String> categories = [
 User user = User(
   name: 'João Caetano Lima',
   email: 'joaocaetanodev@gmail.com',
-  phone: '17982026102',
-  cpf: '07774129189',
-  senha: '123',
+  phone: 17982026102,
+  cpf: 07774129189,
+  password: '123',
 );
 
 List<Order> orders = [
