@@ -1,4 +1,4 @@
-import 'package:greengrocer_virtual/src/layers/data/datasources/user_datasources/login_user_datasource.dart';
+import 'package:greengrocer_virtual/src/layers/data/datasources/datasources/user_datasources/login_user_datasource.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/user.dart';
 import 'package:greengrocer_virtual/src/layers/domain/repositories/user_repositories/login_user_repository.dart';
 

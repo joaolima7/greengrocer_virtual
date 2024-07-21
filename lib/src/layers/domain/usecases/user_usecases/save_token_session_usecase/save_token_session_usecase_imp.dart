@@ -7,6 +7,6 @@ class SaveTokenSessionUseCaseImp implements SaveTokenSessionUseCase {
 
   @override
   Future<void> call(String key, String token) async {
-    return await _saveTokenSessionRepository(key, token);
+    await _saveTokenSessionRepository(key, token);
   }
 }

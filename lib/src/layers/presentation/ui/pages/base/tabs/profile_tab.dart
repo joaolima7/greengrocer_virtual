@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/auth/auth_controller.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/components/text_field_custom.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/app_data.dart'
     as appData;
@@ -30,6 +33,8 @@ class _ProfileTabState extends State<ProfileTab> {
       TextEditingController(text: appData.user.cpf.toString());
 
   final FormatterService _formatterService = FormatterService();
+
+  final AuthController authController = GetIt.I.get<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +84,26 @@ class _ProfileTabState extends State<ProfileTab> {
               'Alterar senha',
               style: TextStyle(fontSize: sizeScreen.width * .038),
             ),
+          ),
+          GetX<AuthController>(
+            init: authController,
+            initState: (_) {},
+            builder: (authController) {
+              return OutlinedButton(
+                onPressed: () async {
+                  authController.signOut(context);
+                },
+                child: authController.isLoading.value
+                    ? Container(
+                        width: sizeScreen.width * .045,
+                        height: sizeScreen.width * .045,
+                        child: CircularProgressIndicator(color: Colors.white))
+                    : Text(
+                        'Sair',
+                        style: TextStyle(fontSize: sizeScreen.width * .038),
+                      ),
+              );
+            },
           ),
         ],
       ),

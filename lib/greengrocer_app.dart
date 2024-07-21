@@ -4,6 +4,7 @@ import 'package:greengrocer_virtual/src/layers/presentation/ui/pages/auth/login_
 import 'package:greengrocer_virtual/src/layers/presentation/ui/pages/auth/signup_page.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/pages/base/base_screen.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/pages/product/datail_product.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/ui/pages/splash/splash_screen.dart';
 
 class GreengrocerApp extends StatelessWidget {
   const GreengrocerApp({super.key});
@@ -11,8 +12,9 @@ class GreengrocerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: '/splash',
       routes: {
+        '/splash': (context) => const SplashScreen(),
         '/': (context) => const LoginPage(),
         '/signup': (context) => SignUpPage(),
         '/base': (context) => BaseScreen(),

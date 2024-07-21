@@ -2,7 +2,7 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:greengrocer_virtual/src/core/utils/consts/endpoints.dart';
 import 'package:greengrocer_virtual/src/core/utils/http_manager.dart';
 import 'package:greengrocer_virtual/src/core/utils/utils_dialogs.dart';
-import 'package:greengrocer_virtual/src/layers/data/datasources/user_datasources/login_user_datasource.dart';
+import 'package:greengrocer_virtual/src/layers/data/datasources/datasources/user_datasources/login_user_datasource.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/user.dart';
 
 class LoginUserApiDataSourceImp implements LoginUserDataSource {
