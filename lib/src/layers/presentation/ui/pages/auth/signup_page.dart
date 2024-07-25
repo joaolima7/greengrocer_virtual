@@ -7,7 +7,6 @@ import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/user.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/auth/auth_controller.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/components/text_field_custom.dart';
-import 'package:greengrocer_virtual/src/layers/presentation/ui/dialogs/dialog_alert.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validatorless/validatorless.dart';
 

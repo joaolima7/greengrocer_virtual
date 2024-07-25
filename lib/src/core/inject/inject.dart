@@ -114,7 +114,7 @@ class Inject {
         () => SignUpUserUseCaseImp(getIt()));
 
     //Controllers
-    getIt.registerFactory<AuthController>(() => AuthController(
+    getIt.registerLazySingleton<AuthController>(() => AuthController(
           getIt(),
           getIt(),
           getIt(),

@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/auth/auth_controller.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/components/text_field_custom.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/ui/dialogs/recover_password_dialog.dart';
 import 'package:validatorless/validatorless.dart';
 
 class LoginPage extends StatefulWidget {
@@ -118,7 +119,13 @@ class _LoginPageState extends State<LoginPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => RecoverPasswordDialog(
+                                  sizeWidth: sizeScreen.width),
+                            );
+                          },
                           child: const Text('Esqueceu a Senha?'),
                           style: ButtonStyle(
                             foregroundColor:

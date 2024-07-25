@@ -13,13 +13,13 @@ import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/sig
 import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/signup_user_usecase/signup_user_usecase.dart';
 
 class AuthController extends GetxController {
-  LoginUserUseCase _loginUserUseCase;
-  SaveTokenSessionUseCase _saveTokenSessionUseCase;
-  DeleteTokenSessionUseCase _deleteTokenSessionUseCase;
-  GetTokenSessionUseCase _getTokenSessionUseCase;
-  GetSessionUseCase _getSessionUseCase;
-  SignUpUserUseCase _signUpUserUseCase;
-  SignOutUserUseCase _signOutUserUseCase;
+  final LoginUserUseCase _loginUserUseCase;
+  final SaveTokenSessionUseCase _saveTokenSessionUseCase;
+  final DeleteTokenSessionUseCase _deleteTokenSessionUseCase;
+  final GetTokenSessionUseCase _getTokenSessionUseCase;
+  final GetSessionUseCase _getSessionUseCase;
+  final SignUpUserUseCase _signUpUserUseCase;
+  final SignOutUserUseCase _signOutUserUseCase;
 
   AuthController(
     this._loginUserUseCase,
@@ -31,8 +31,8 @@ class AuthController extends GetxController {
     this._signUpUserUseCase,
   );
 
-  RxBool isLoading = false.obs;
-  User user = User.empty();
+  var isLoading = false.obs;
+  var user = User.empty().obs; // Change to Rx<User>
 
   Future<void> validateToken(BuildContext context) async {
     String? token = await _getTokenSessionUseCase('token');
@@ -45,15 +45,15 @@ class AuthController extends GetxController {
     User? userToken = await _getSessionUseCase(token);
 
     if (userToken != null) {
-      user = userToken;
-      user.token = token;
-      saveTokenAnProceed(token, context);
+      user.value = userToken;
+      user.value.token = token;
+      saveTokenAndProceed(token, context);
     } else {
       signOut(context);
     }
   }
 
-  void saveTokenAnProceed(String token, BuildContext context) async {
+  void saveTokenAndProceed(String token, BuildContext context) async {
     await _saveTokenSessionUseCase('token', token);
     Navigator.pushNamedAndRemoveUntil(context, '/base', (route) => false);
   }
@@ -65,21 +65,21 @@ class AuthController extends GetxController {
     isLoading.value = true;
 
     try {
-      var user = await _loginUserUseCase(email, password);
-      this.user = user;
-      saveTokenAnProceed(user.token!, context);
+      var loggedUser = await _loginUserUseCase(email, password);
+      user.value = loggedUser;
+      saveTokenAndProceed(loggedUser.token!, context);
     } catch (e) {
       UtilsDialogs.showToast(message: e.toString(), sizeWidth: 300);
+    } finally {
+      isLoading.value = false;
     }
-
-    isLoading.value = false;
   }
 
   Future<void> signOut(BuildContext context) async {
     isLoading.value = true;
     await _deleteTokenSessionUseCase('token');
-    await _signOutUserUseCase(user.token!);
-    user = User.empty();
+    await _signOutUserUseCase(user.value.token!);
+    user.value = User.empty();
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
     isLoading.value = false;
   }
@@ -90,10 +90,18 @@ class AuthController extends GetxController {
 
     try {
       var createdUser = await _signUpUserUseCase(newUser);
-      user = createdUser!;
-      saveTokenAnProceed(user.token!, context);
+      user.value = createdUser!;
+      saveTokenAndProceed(user.value.token!, context);
     } catch (e) {
       UtilsDialogs.showToast(message: e.toString(), sizeWidth: 300);
+    } finally {
+      isLoading.value = false;
     }
+  }
+
+  Future<void> recoverPassword() async {
+    isLoading.value = true;
+    await Future.delayed(const Duration(seconds: 2));
+    isLoading.value = false;
   }
 }
