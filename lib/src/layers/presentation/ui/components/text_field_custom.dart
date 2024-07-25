@@ -10,6 +10,7 @@ class TextFieldCustom extends StatefulWidget {
   bool isObscure;
   bool containBorder;
   bool readOnly;
+  TextInputType? textInputType;
   List<TextInputFormatter>? inputFormatters;
   String? Function(String?)? validator;
 
@@ -23,6 +24,7 @@ class TextFieldCustom extends StatefulWidget {
     this.hintText,
     this.label,
     this.validator,
+    this.textInputType,
     required this.controller,
     required this.prefixIcon,
   });
@@ -43,6 +45,7 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: TextFormField(
+        keyboardType: widget.textInputType,
         validator: widget.validator,
         readOnly: widget.readOnly,
         inputFormatters: widget.inputFormatters,

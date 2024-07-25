@@ -17,10 +17,17 @@ class User {
     this.token,
   });
 
+  User.empty()
+      : name = '',
+        email = '',
+        phone = 0,
+        cpf = 0;
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+      'objectId': id,
       'name': name,
+      'username': email,
       'email': email,
       'phone': phone,
       'cpf': cpf,

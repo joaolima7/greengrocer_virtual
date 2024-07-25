@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: <Widget>[
                       TextFieldCustom(
                         label: 'Email',
+                        textInputType: TextInputType.emailAddress,
                         controller: _txtEmail,
                         prefixIcon: const Icon(Icons.email),
                         validator: Validatorless.multiple([
