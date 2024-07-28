@@ -32,7 +32,7 @@ class AuthController extends GetxController {
   );
 
   var isLoading = false.obs;
-  var user = User.empty().obs; // Change to Rx<User>
+  var user = User.empty().obs;
 
   Future<void> validateToken(BuildContext context) async {
     String? token = await _getTokenSessionUseCase('token');

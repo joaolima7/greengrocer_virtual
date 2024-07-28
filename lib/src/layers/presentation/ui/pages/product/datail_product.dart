@@ -39,7 +39,7 @@ class _DetailProductState extends State<DetailProduct> {
                         child: Center(
                           child: Hero(
                             tag: widget.item.imgUrl,
-                            child: Image.asset(widget.item.imgUrl),
+                            child: Image.network(widget.item.imgUrl),
                           ),
                         ),
                       ),
