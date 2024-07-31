@@ -1,5 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
+import 'package:greengrocer_virtual/src/layers/domain/entities/category.dart';
 
 class Item {
   String? id;
@@ -8,12 +9,14 @@ class Item {
   String unit;
   double price;
   String? description;
+  Category category;
 
   Item({
     required this.itemName,
     required this.imgUrl,
     required this.unit,
     required this.price,
+    required this.category,
     this.description,
     this.id,
   });
@@ -26,6 +29,7 @@ class Item {
       'unit': unit,
       'price': price,
       'description': description,
+      'category': category.toMap()
     };
   }
 
@@ -38,6 +42,7 @@ class Item {
       price: (map['price'] as num).toDouble(),
       description:
           map['description'] != null ? map['description'] as String : null,
+      category: Category.fromMap(map['category'] as Map<String, dynamic>),
     );
   }
 

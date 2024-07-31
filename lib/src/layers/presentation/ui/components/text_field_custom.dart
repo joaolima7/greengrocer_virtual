@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 class TextFieldCustom extends StatefulWidget {
   TextEditingController controller;
   Icon prefixIcon;
+  Icon? sufixIcon;
   bool isSecret;
   String? label;
   String? hintText;
@@ -13,6 +15,9 @@ class TextFieldCustom extends StatefulWidget {
   TextInputType? textInputType;
   List<TextInputFormatter>? inputFormatters;
   String? Function(String?)? validator;
+  Function(String)? onSubmitted;
+  Function(String)? onChanged;
+  Function()? onSuffixIconPressed;
 
   TextFieldCustom({
     super.key,
@@ -25,6 +30,10 @@ class TextFieldCustom extends StatefulWidget {
     this.label,
     this.validator,
     this.textInputType,
+    this.onSubmitted,
+    this.sufixIcon,
+    this.onChanged,
+    this.onSuffixIconPressed,
     required this.controller,
     required this.prefixIcon,
   });
@@ -45,6 +54,8 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: TextFormField(
+        onChanged: widget.onChanged,
+        onFieldSubmitted: widget.onSubmitted,
         keyboardType: widget.textInputType,
         validator: widget.validator,
         readOnly: widget.readOnly,
@@ -74,7 +85,12 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
                       icon: const Icon(
                         Icons.visibility_off,
                       ))
-              : null,
+              : widget.sufixIcon != null
+                  ? IconButton(
+                      icon: widget.sufixIcon!,
+                      onPressed: widget.onSuffixIconPressed,
+                    )
+                  : null,
           isDense: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25),

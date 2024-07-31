@@ -1,12 +1,16 @@
 import 'package:get_it/get_it.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/api/item/get_all_category_api_datasource_imp.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/api/item/get_all_items_api_datasource_imp.dart';
+import 'package:greengrocer_virtual/src/layers/data/datasources/api/item/get_items_by_category_api_datasource_imp.dart';
+import 'package:greengrocer_virtual/src/layers/data/datasources/api/item/get_items_by_search_api_datasource_imp.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/api/user/get_session_api_datasource_imp.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/api/user/login_user_api_datasource_imp.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/api/user/signout_user_api_datasource_imp.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/api/user/signup_user_api_datasource_imp.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/datasources/item_datasources/get_all_category_datasource.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/datasources/item_datasources/get_all_items_datasource.dart';
+import 'package:greengrocer_virtual/src/layers/data/datasources/datasources/item_datasources/get_items_by_category_datasource.dart';
+import 'package:greengrocer_virtual/src/layers/data/datasources/datasources/item_datasources/get_items_by_search_datasource.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/datasources/user_datasources/delete_token_session_datasouce.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/datasources/user_datasources/get_session_datasource.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/datasources/user_datasources/get_token_session_datasource.dart';
@@ -19,6 +23,8 @@ import 'package:greengrocer_virtual/src/layers/data/datasources/local/user/get_t
 import 'package:greengrocer_virtual/src/layers/data/datasources/local/user/save_token_session_local_datasource_imp.dart';
 import 'package:greengrocer_virtual/src/layers/data/repositories/item_repositories/get_all_category_repository_imp.dart';
 import 'package:greengrocer_virtual/src/layers/data/repositories/item_repositories/get_all_items_repository_imp.dart';
+import 'package:greengrocer_virtual/src/layers/data/repositories/item_repositories/get_items_by_category_repository_imp.dart';
+import 'package:greengrocer_virtual/src/layers/data/repositories/item_repositories/get_items_by_search_repository_imp.dart';
 import 'package:greengrocer_virtual/src/layers/data/repositories/user_repositories/delete_token_session_repository_imp.dart';
 import 'package:greengrocer_virtual/src/layers/data/repositories/user_repositories/get_session_repository_imp.dart';
 import 'package:greengrocer_virtual/src/layers/data/repositories/user_repositories/get_token_session_repository_imp.dart';
@@ -28,6 +34,8 @@ import 'package:greengrocer_virtual/src/layers/data/repositories/user_repositori
 import 'package:greengrocer_virtual/src/layers/data/repositories/user_repositories/signup_user_repository_imp.dart';
 import 'package:greengrocer_virtual/src/layers/domain/repositories/item_repositories/get_all_category_repository.dart';
 import 'package:greengrocer_virtual/src/layers/domain/repositories/item_repositories/get_all_items_repository.dart';
+import 'package:greengrocer_virtual/src/layers/domain/repositories/item_repositories/get_items_by_category_rpeository.dart';
+import 'package:greengrocer_virtual/src/layers/domain/repositories/item_repositories/get_items_by_search_repository.dart';
 import 'package:greengrocer_virtual/src/layers/domain/repositories/user_repositories/delete_token_session_repository.dart';
 import 'package:greengrocer_virtual/src/layers/domain/repositories/user_repositories/get_session_repository.dart';
 import 'package:greengrocer_virtual/src/layers/domain/repositories/user_repositories/get_token_session_repository.dart';
@@ -39,6 +47,10 @@ import 'package:greengrocer_virtual/src/layers/domain/usecases/item_usecases/get
 import 'package:greengrocer_virtual/src/layers/domain/usecases/item_usecases/get_all_category_usecase/get_all_category_usecase_imp.dart';
 import 'package:greengrocer_virtual/src/layers/domain/usecases/item_usecases/get_all_items_usecase/get_all_items_usecase.dart';
 import 'package:greengrocer_virtual/src/layers/domain/usecases/item_usecases/get_all_items_usecase/get_all_items_usecase_imp.dart';
+import 'package:greengrocer_virtual/src/layers/domain/usecases/item_usecases/get_items_by_category_usecase/get_items_by_category_usecase.dart';
+import 'package:greengrocer_virtual/src/layers/domain/usecases/item_usecases/get_items_by_category_usecase/get_items_by_category_usecase_imp.dart';
+import 'package:greengrocer_virtual/src/layers/domain/usecases/item_usecases/get_items_by_search_usecase/get_items_by_search_usecase.dart';
+import 'package:greengrocer_virtual/src/layers/domain/usecases/item_usecases/get_items_by_search_usecase/get_items_by_search_usecase_imp.dart';
 import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/delete_token_session_usecase/delete_token_session_usecase.dart';
 import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/delete_token_session_usecase/delete_token_session_usecase_imp.dart';
 import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/get_session_usecase/get_session_usecase.dart';
@@ -88,6 +100,12 @@ class Inject {
     getIt.registerLazySingleton<GetAllCategoryDataSource>(
         () => GetAllCategoryApiDataSourceImp());
 
+    getIt.registerLazySingleton<GetItemsByCategoryDataSource>(
+        () => GetItemsByCategoryApiDataSourceImp());
+
+    getIt.registerLazySingleton<GetItemsBySearchDataSource>(
+        () => GetItemsBySearchApiDataSourceImp());
+
     //Repositories
     getIt.registerLazySingleton<LoginUserRepository>(
         () => LoginUserRepositoryImp(getIt()));
@@ -115,6 +133,12 @@ class Inject {
 
     getIt.registerLazySingleton<GetAllCategoryRepository>(
         () => GetAllCategoryRepositoryImp(getIt()));
+
+    getIt.registerLazySingleton<GetItemsByCategoryRepository>(
+        () => GetItemsByCategoryRespositoryImp(getIt()));
+
+    getIt.registerLazySingleton<GetItemsBySearchRepository>(
+        () => GetItemsBySearchRepositoryImp(getIt()));
 
     //UseCases
     getIt.registerLazySingleton<LoginUserUseCase>(
@@ -144,6 +168,12 @@ class Inject {
     getIt.registerLazySingleton<GetAllCategoryUseCase>(
         () => GetAllCategoryUseCaseImp(getIt()));
 
+    getIt.registerLazySingleton<GetItemsByCategoryUseCase>(
+        () => GetItemsByCategoryUseCaseImp(getIt()));
+
+    getIt.registerLazySingleton<GetItemsBySearchUseCase>(
+        () => GetItemsBySearchUseCaseImp(getIt()));
+
     //Controllers
     getIt.registerLazySingleton<AuthController>(() => AuthController(
           getIt(),
@@ -156,6 +186,8 @@ class Inject {
         ));
 
     getIt.registerLazySingleton<HomeTabController>(() => HomeTabController(
+          getIt(),
+          getIt(),
           getIt(),
           getIt(),
         ));

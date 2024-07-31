@@ -1,11 +1,15 @@
 import 'dart:convert';
 
+import 'package:greengrocer_virtual/src/layers/domain/entities/item.dart';
+
 class Category {
   String? objectId;
   String name;
+  List<Item>? items;
 
   Category({
     this.objectId,
+    this.items,
     required this.name,
   });
 
@@ -13,13 +17,21 @@ class Category {
     return <String, dynamic>{
       'objectId': objectId,
       'name': name,
+      'items': items?.map((item) => item.toMap()).toList(),
     };
   }
 
   factory Category.fromMap(Map<String, dynamic> map) {
     return Category(
-      objectId: map['objectId'] != null ? map['objectId'] as String : null,
+      objectId: map['id'] != null ? map['id'] as String : null,
       name: map['name'] as String,
+      items: map['items'] != null
+          ? List<Item>.from(
+              (map['items'] as List<dynamic>).map<Item>(
+                (item) => Item.fromMap(item as Map<String, dynamic>),
+              ),
+            )
+          : null,
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
+import 'package:greengrocer_virtual/src/layers/domain/entities/category.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/item.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/order.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/user.dart';
@@ -9,6 +10,7 @@ Item apple = Item(
   unit: 'kg',
   price: 5.5,
   description: 'A melhor Maçã da região!',
+  category: Category(name: 'Fruta'),
 );
 
 Item grapple = Item(
@@ -17,6 +19,7 @@ Item grapple = Item(
   unit: 'kg',
   price: 9.0,
   description: 'A melhor Uva da região!',
+  category: Category(name: 'Fruta'),
 );
 
 Item kiwi = Item(
@@ -25,6 +28,7 @@ Item kiwi = Item(
   unit: 'kg',
   price: 55,
   description: 'O melhor Kiwi da região!',
+  category: Category(name: 'Fruta'),
 );
 
 Item abacaxi = Item(
@@ -33,6 +37,7 @@ Item abacaxi = Item(
   unit: 'un',
   price: 9.90,
   description: 'O melhor Abacaxi da região!',
+  category: Category(name: 'Fruta'),
 );
 
 Item pera = Item(
@@ -41,6 +46,7 @@ Item pera = Item(
   unit: 'kg',
   price: 13.49,
   description: 'A melhor Pera da região!',
+  category: Category(name: 'Fruta'),
 );
 
 Item melancia = Item(
@@ -49,6 +55,7 @@ Item melancia = Item(
   unit: 'kg',
   price: 10,
   description: 'A melhor Melancia da região!',
+  category: Category(name: 'Fruta'),
 );
 
 List<Item> items = [apple, grapple, kiwi, abacaxi, pera, melancia];
