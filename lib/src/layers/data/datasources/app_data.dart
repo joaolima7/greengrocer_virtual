@@ -61,9 +61,9 @@ Item melancia = Item(
 List<Item> items = [apple, grapple, kiwi, abacaxi, pera, melancia];
 
 List<CartItem> cartItems = [
-  CartItem(item: apple, quantity: 2),
-  CartItem(item: melancia, quantity: 5),
-  CartItem(item: abacaxi, quantity: 3),
+  CartItem(item: apple, quantity: 2, objectId: '1'),
+  CartItem(item: melancia, quantity: 5, objectId: '1'),
+  CartItem(item: abacaxi, quantity: 3, objectId: '1'),
 ];
 
 List<String> categories = [

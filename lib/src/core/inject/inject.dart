@@ -66,6 +66,7 @@ import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/sig
 import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/signup_user_usecase/signup_user_usecase.dart';
 import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/signup_user_usecase/signup_user_usecase_imp.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/auth/auth_controller.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/navigation/navigation_controller.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/tabs/home_tab_controller.dart';
 
 class Inject {
@@ -191,5 +192,8 @@ class Inject {
           getIt(),
           getIt(),
         ));
+
+    getIt.registerLazySingleton<NavigationController>(
+        () => NavigationController());
   }
 }

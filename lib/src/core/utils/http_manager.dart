@@ -27,11 +27,11 @@ class HttpManager {
     try {
       Response response = await dio.request(
         url,
+        data: body,
         options: Options(
           headers: defaultHeaders,
           method: method,
         ),
-        data: body,
       );
 
       return response.data;

@@ -2,6 +2,7 @@ import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/item.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/tabs/home_tab_controller.dart';
@@ -43,7 +44,7 @@ class _HomeTabState extends State<HomeTab> {
       }
 
       if (!itemInCart) {
-        appData.cartItems.add(CartItem(item: item, quantity: 1));
+        appData.cartItems.add(CartItem(item: item, quantity: 1, objectId: '1'));
       }
     });
   }
@@ -200,16 +201,21 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                   );
                 } else if (controller.allItems.isEmpty) {
-                  return Expanded(
-                    child: Center(
-                      child: Text(
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.search_off,
+                        color: MaterialTheme.lightScheme().primary,
+                      ),
+                      Text(
                         'Nenhum item encontrado nessa categoria.',
                         style: TextStyle(
                           fontSize: sizeScreen.width * .045,
                           color: Colors.grey,
                         ),
                       ),
-                    ),
+                    ],
                   );
                 } else {
                   return Expanded(
