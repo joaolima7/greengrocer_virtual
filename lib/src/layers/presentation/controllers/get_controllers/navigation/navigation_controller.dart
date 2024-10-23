@@ -15,6 +15,9 @@ class NavigationController extends GetxController {
 
   PageController get pageController => _pageController;
   int get currentIndex => _currentIndex.value;
+  set currentIndex(int index) {
+    _currentIndex.value = index;
+  }
 
   void navigatePageView(int page) {
     if (_currentIndex.value == page) return;

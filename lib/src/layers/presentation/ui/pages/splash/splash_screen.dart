@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/auth/auth_controller.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/tabs/cart_tab_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,6 +15,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final AuthController authController = GetIt.I.get<AuthController>();
+  final CartTabController cart = GetIt.I.get<CartTabController>();
 
   Future<void> init() async {
     await Future.delayed(const Duration(seconds: 2));

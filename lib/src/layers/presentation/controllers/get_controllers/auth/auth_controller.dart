@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:greengrocer_virtual/src/core/utils/utils_dialogs.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/user.dart';
 import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/delete_token_session_usecase/delete_token_session_usecase.dart';
@@ -11,6 +12,8 @@ import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/log
 import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/save_token_session_usecase/save_token_session_usecase.dart';
 import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/signout_user_usecase/signout_user_usecase.dart';
 import 'package:greengrocer_virtual/src/layers/domain/usecases/user_usecases/signup_user_usecase/signup_user_usecase.dart';
+
+import '../navigation/navigation_controller.dart';
 
 class AuthController extends GetxController {
   final LoginUserUseCase _loginUserUseCase;
@@ -32,6 +35,7 @@ class AuthController extends GetxController {
   );
 
   var isLoading = false.obs;
+  var isLoadingForgot = false.obs;
   var user = User.empty().obs;
 
   Future<void> validateToken(BuildContext context) async {
@@ -100,8 +104,10 @@ class AuthController extends GetxController {
   }
 
   Future<void> recoverPassword() async {
-    isLoading.value = true;
+    final NavigationController nav = GetIt.I.get<NavigationController>();
+    nav.currentIndex = 0;
+    isLoadingForgot.value = true;
     await Future.delayed(const Duration(seconds: 2));
-    isLoading.value = false;
+    isLoadingForgot.value = false;
   }
 }

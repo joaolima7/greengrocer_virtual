@@ -1,15 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
 import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
-import 'package:greengrocer_virtual/src/layers/data/datasources/app_data.dart'
-    as appData;
 import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/tabs/cart_tab_controller.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/components/cart_tile.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/dialogs/payment_dialog.dart';
+import 'package:greengrocer_virtual/src/layers/data/datasources/app_data.dart'
+    as appData;
 
 class CartTab extends StatefulWidget {
-  const CartTab({super.key});
+  const CartTab({Key? key}) : super(key: key);
 
   @override
   State<CartTab> createState() => _CartTabState();
@@ -17,30 +19,24 @@ class CartTab extends StatefulWidget {
 
 class _CartTabState extends State<CartTab> {
   final FormatterService _formatterService = FormatterService();
-  double total = 0;
-
-  void removeItemFromCart(CartItem cartItem) {
-    setState(() {
-      appData.cartItems.remove(cartItem);
-    });
-  }
-
-  void cartTotalPrice() {
-    double result = 0;
-
-    for (var item in appData.cartItems) {
-      result += item.totalPrice();
-    }
-
-    setState(() {
-      total = result;
-    });
-  }
+  final CartTabController _cartTabController = GetIt.I.get<CartTabController>();
 
   @override
   void initState() {
     super.initState();
-    cartTotalPrice();
+    _cartTabController.getCartItems();
+  }
+
+  void removeItemFromCart(CartItem cartItem) {
+    _cartTabController.removeCartItem(cartItem);
+  }
+
+  double calculateTotalPrice() {
+    double result = 0;
+    for (var item in _cartTabController.allCartItems) {
+      result += item.totalPrice();
+    }
+    return result;
   }
 
   @override
@@ -54,33 +50,39 @@ class _CartTabState extends State<CartTab> {
               TextStyle(fontSize: sizeScreen.width * .065, color: Colors.white),
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 6,
-                vertical: 10,
+      body: Obx(() {
+        if (_cartTabController.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return Column(
+          children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 6,
+                  vertical: 10,
+                ),
+                child: _cartTabController.allCartItems.isEmpty
+                    ? const Center(
+                        child: Text('Carrinho Vazio!'),
+                      )
+                    : ListView.builder(
+                        itemCount: _cartTabController.allCartItems.length,
+                        itemBuilder: (_, index) {
+                          return CartTile(
+                            cartItem: _cartTabController.allCartItems[index],
+                            sizeScreen: sizeScreen.width,
+                            remove: removeItemFromCart,
+                            onQuantityChanged: () {
+                              setState(() {});
+                            },
+                          );
+                        },
+                      ),
               ),
-              child: appData.cartItems.isEmpty
-                  ? const Center(
-                      child: Text('Carrinho Vazio!'),
-                    )
-                  : ListView.builder(
-                      itemCount: appData.cartItems.length,
-                      itemBuilder: (_, index) {
-                        return CartTile(
-                          cartItem: appData.cartItems[index],
-                          sizeScreen: sizeScreen.width,
-                          remove: removeItemFromCart,
-                          onQuantityChanged: cartTotalPrice,
-                        );
-                      },
-                    ),
             ),
-          ),
-          Container(
-            decoration: const BoxDecoration(
+            Container(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
                 boxShadow: [
@@ -89,62 +91,71 @@ class _CartTabState extends State<CartTab> {
                     blurRadius: 3,
                     spreadRadius: 2,
                   ),
-                ]),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
+                ],
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
                   vertical: sizeScreen.width * .05,
-                  horizontal: sizeScreen.width * .05),
-              child: Column(
-                //mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Text(
-                    'Total geral',
-                    style: TextStyle(
-                        fontSize: sizeScreen.width * .035, color: Colors.black),
-                  ),
-                  Text(
-                    _formatterService.priceToCurrency(total).toString(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: sizeScreen.width * .065,
-                      color: MaterialTheme.lightScheme().inversePrimary,
+                  horizontal: sizeScreen.width * .05,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Text(
+                      'Total geral',
+                      style: TextStyle(
+                        fontSize: sizeScreen.width * .035,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      bool? result = await showOrderConfirmation();
-
-                      if (result == true)
-                        showDialog(
+                    Text(
+                      _formatterService
+                          .priceToCurrency(calculateTotalPrice())
+                          .toString(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: sizeScreen.width * .065,
+                        color: MaterialTheme.lightScheme().inversePrimary,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        bool? result = await showOrderConfirmation();
+                        if (result == true) {
+                          showDialog(
                             context: context,
                             builder: (_) {
+                              // Implementar a lógica para obter o pedido a partir do controlador
+                              // final order = _cartTabController.order;
                               return PaymentDialog(
                                 sizeWidth: sizeScreen.width,
                                 order: appData.orders.first,
                               );
-                            });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(right: 8),
-                          child: Icon(Icons.check_circle_rounded),
-                        ),
-                        Text(
-                          'Concluir Pedido',
-                          style: TextStyle(fontSize: sizeScreen.width * .038),
-                        ),
-                      ],
+                            },
+                          );
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(right: 8),
+                            child: Icon(Icons.check_circle_rounded),
+                          ),
+                          Text(
+                            'Concluir Pedido',
+                            style: TextStyle(fontSize: sizeScreen.width * .038),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      }),
     );
   }
 

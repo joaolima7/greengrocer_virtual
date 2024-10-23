@@ -8,7 +8,7 @@ import 'package:greengrocer_virtual/src/layers/presentation/ui/pages/base/tabs/o
 import 'package:greengrocer_virtual/src/layers/presentation/ui/pages/base/tabs/profile_tab.dart';
 
 class BaseScreen extends StatefulWidget {
-  BaseScreen({super.key});
+  const BaseScreen({super.key});
 
   @override
   State<BaseScreen> createState() => _BaseScreenState();
@@ -21,12 +21,12 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         controller: navigationController.pageController,
         children: [
-          HomeTab(),
-          CartTab(),
-          OrdersTab(),
+          const HomeTab(),
+          const CartTab(),
+          const OrdersTab(),
           ProfileTab(),
         ],
       ),

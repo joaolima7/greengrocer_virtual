@@ -3,7 +3,7 @@ import 'package:greengrocer_virtual/src/core/utils/http_manager.dart';
 import 'package:greengrocer_virtual/src/layers/data/datasources/datasources/cart_datasources/get_all_cart_items_datasource.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
 
-class GetAllCartItemsApiDataSource implements GetAllCartItemsDataSource {
+class GetAllCartItemsApiDataSourceImp implements GetAllCartItemsDataSource {
   final _httpManager = HttpManager();
 
   @override
@@ -17,7 +17,7 @@ class GetAllCartItemsApiDataSource implements GetAllCartItemsDataSource {
 
       if (response['result'] != null) {
         List<dynamic> list = response['result'];
-        return list.map((item) => CartItem.fromJson(item)).toList();
+        return list.map((item) => CartItem.fromMap(item)).toList();
       } else {
         return throw Exception('Erro ao carregar Carrinho!');
       }

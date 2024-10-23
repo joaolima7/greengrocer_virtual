@@ -20,7 +20,7 @@ class UpdateCartItemApiDataSourceImp implements UpdateCartItemDataSource {
       );
 
       if (response['result'] != null) {
-        return CartItem.fromJson(response['result']);
+        return CartItem.fromMap(response['result']);
       } else {
         return throw Exception('Erro ao atualizar Carrinho!');
       }

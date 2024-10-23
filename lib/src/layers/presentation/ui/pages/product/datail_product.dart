@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
 import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
+import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/item.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/tabs/cart_tab_controller.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/components/quantity_custom.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class DetailProduct extends StatefulWidget {
   DetailProduct({
@@ -19,7 +24,14 @@ class DetailProduct extends StatefulWidget {
 }
 
 class _DetailProductState extends State<DetailProduct> {
+  final CartTabController _cartTabController = GetIt.I.get<CartTabController>();
   int carItemQuantity = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    _cartTabController.checkItemInCart(widget.item.id!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +50,8 @@ class _DetailProductState extends State<DetailProduct> {
                       child: Container(
                         child: Center(
                           child: Hero(
-                            tag: widget.item.imgUrl,
-                            child: Image.network(widget.item.imgUrl),
+                            tag: widget.item.imgUrl!,
+                            child: Image.network(widget.item.imgUrl!),
                           ),
                         ),
                       ),
@@ -62,45 +74,32 @@ class _DetailProductState extends State<DetailProduct> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Text(
-                                    widget.item.itemName,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: sizeScreen.width * .085,
-                                    ),
+                              Expanded(
+                                flex: 2,
+                                child: AutoSizeText(
+                                  widget.item.itemName,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
+                                  maxLines: 2,
+                                  minFontSize: 25,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                              Column(
-                                children: [
-                                  Text(
-                                    widget.formatterService
-                                        .priceToCurrency(widget.item.price)
-                                        .toString(),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: sizeScreen.width * .065,
-                                      color: MaterialTheme.lightScheme()
-                                          .inversePrimary,
-                                    ),
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  widget.formatterService
+                                      .priceToCurrency(widget.item.price)
+                                      .toString(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: sizeScreen.width * .065,
+                                    color: MaterialTheme.lightScheme()
+                                        .inversePrimary,
                                   ),
-                                  Row(
-                                    children: <Widget>[
-                                      QuantityCustom(
-                                        suffixText: widget.item.unit,
-                                        value: carItemQuantity,
-                                        sizeScreen: sizeScreen.width,
-                                        result: (quantity) {
-                                          setState(() {
-                                            carItemQuantity = quantity;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                  textAlign: TextAlign.right,
+                                ),
                               ),
                             ],
                           ),
@@ -136,23 +135,47 @@ class _DetailProductState extends State<DetailProduct> {
                               ],
                             ),
                           ),
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(right: 8),
-                                  child: Icon(Icons.add_shopping_cart_outlined),
+                          Obx(() {
+                            if (_cartTabController.isLoading.value) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              return ElevatedButton(
+                                onPressed: _cartTabController.isItemInCart.value
+                                    ? null
+                                    : () {
+                                        _cartTabController.addCartItem(CartItem(
+                                            objectId: '',
+                                            item: widget.item,
+                                            quantity: 1));
+                                        _cartTabController
+                                            .checkItemInCart(widget.item.id!);
+                                      },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: Icon(
+                                        _cartTabController.isItemInCart.value
+                                            ? Icons.check
+                                            : Icons.add_shopping_cart_outlined,
+                                      ),
+                                    ),
+                                    Text(
+                                      _cartTabController.isItemInCart.value
+                                          ? 'No Carrinho'
+                                          : 'Add ao Carrinho',
+                                      style: TextStyle(
+                                        fontSize: sizeScreen.width * .038,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  'Add ao Carrinho',
-                                  style: TextStyle(
-                                      fontSize: sizeScreen.width * .038),
-                                ),
-                              ],
-                            ),
-                          ),
+                              );
+                            }
+                          }),
                         ],
                       ),
                     ),
@@ -162,16 +185,17 @@ class _DetailProductState extends State<DetailProduct> {
             ),
           ),
           Positioned(
-              top: 10,
-              left: 10,
-              child: SafeArea(
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.arrow_back_ios),
-                ),
-              )),
+            top: 10,
+            left: 10,
+            child: SafeArea(
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back_ios),
+              ),
+            ),
+          ),
         ],
       ),
     );

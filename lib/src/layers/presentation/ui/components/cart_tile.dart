@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:greengrocer_virtual/src/core/config/themes/theme.dart';
 import 'package:greengrocer_virtual/src/core/utils/formatters_service.dart';
 import 'package:greengrocer_virtual/src/layers/domain/entities/cart_item.dart';
+import 'package:greengrocer_virtual/src/layers/presentation/controllers/get_controllers/tabs/cart_tab_controller.dart';
+import 'package:get_it/get_it.dart';
 import 'package:greengrocer_virtual/src/layers/presentation/ui/components/quantity_custom.dart';
 
 class CartTile extends StatefulWidget {
@@ -25,11 +27,22 @@ class CartTile extends StatefulWidget {
 }
 
 class _CartTileState extends State<CartTile> {
+  final CartTabController _cartTabController = GetIt.I.get<CartTabController>();
+
+  void updateItemQuantity(int newQuantity) {
+    if (newQuantity == 0) {
+      widget.remove(widget.cartItem);
+    } else {
+      widget.cartItem.quantity = newQuantity;
+      _cartTabController.updateCartItem(widget.cartItem);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        leading: Image.asset(widget.cartItem.item.imgUrl),
+        leading: Image.network(widget.cartItem.item.imgUrl!),
         title: Text(
           widget.cartItem.item.itemName,
           style: TextStyle(
@@ -50,7 +63,7 @@ class _CartTileState extends State<CartTile> {
         ),
         trailing: QuantityCustom(
           sizeScreen: widget.sizeScreen,
-          suffixText: widget.cartItem.item.unit,
+          suffixText: widget.cartItem.item.unit!,
           value: widget.cartItem.quantity,
           result: (quantity) {
             setState(() {
@@ -62,6 +75,7 @@ class _CartTileState extends State<CartTile> {
             });
             widget.onQuantityChanged();
           },
+          updateQuantity: updateItemQuantity,
         ),
       ),
     );

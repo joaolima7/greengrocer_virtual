@@ -207,6 +207,7 @@ class _HomeTabState extends State<HomeTab> {
                       Icon(
                         Icons.search_off,
                         color: MaterialTheme.lightScheme().primary,
+                        size: sizeScreen.width * .09,
                       ),
                       Text(
                         'Nenhum item encontrado nessa categoria.',

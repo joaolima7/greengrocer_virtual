@@ -9,12 +9,14 @@ class QuantityCustom extends StatefulWidget {
     required this.suffixText,
     required this.value,
     required this.result,
+    required this.updateQuantity,
   });
 
   double sizeScreen;
   final int value;
   final String suffixText;
   final Function(int quantity) result;
+  final Function(int newQuantity) updateQuantity;
 
   @override
   State<QuantityCustom> createState() => _QuantityCustomState();
@@ -44,9 +46,9 @@ class _QuantityCustomState extends State<QuantityCustom> {
             icon:
                 widget.value == 1 ? Icons.delete_forever_rounded : Icons.remove,
             onPressed: () {
-              if (widget.value == 1) {}
               int resultCount = widget.value - 1;
               widget.result(resultCount);
+              widget.updateQuantity(resultCount);
             },
           ),
           Padding(
@@ -66,6 +68,7 @@ class _QuantityCustomState extends State<QuantityCustom> {
             onPressed: () {
               int resultCount = widget.value + 1;
               widget.result(resultCount);
+              widget.updateQuantity(resultCount);
             },
           ),
         ],

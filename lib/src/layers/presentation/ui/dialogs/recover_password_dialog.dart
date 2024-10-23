@@ -63,7 +63,7 @@ class RecoverPasswordDialog extends StatelessWidget {
               init: authController,
               builder: (controller) {
                 return ElevatedButton(
-                  onPressed: controller.isLoading.value
+                  onPressed: controller.isLoadingForgot.value
                       ? null
                       : () async {
                           FocusScope.of(context).unfocus();
@@ -80,7 +80,7 @@ class RecoverPasswordDialog extends StatelessWidget {
                             );
                           }
                         },
-                  child: authController.isLoading.value
+                  child: authController.isLoadingForgot.value
                       ? Container(
                           width: sizeWidth * .045,
                           height: sizeWidth * .045,
