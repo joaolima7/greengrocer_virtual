@@ -13,6 +13,8 @@ import 'package:greengrocer_virtual/src/layers/data/datasources/app_data.dart'
     as appData;
 import 'package:greengrocer_virtual/src/layers/presentation/ui/widgets/shimmer_custom.dart';
 
+import '../../../../controllers/get_controllers/tabs/cart_tab_controller.dart';
+
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
 
@@ -24,29 +26,39 @@ class _HomeTabState extends State<HomeTab> {
   final TextEditingController _txtSearch = TextEditingController();
   final GlobalKey<CartIconKey> cartKey = GlobalKey<CartIconKey>();
   final HomeTabController homecontroller = GetIt.I.get<HomeTabController>();
+  final CartTabController _cartTabController = GetIt.I.get<CartTabController>();
   late Function(GlobalKey) runAddToCartAnimation;
   var _cartQuantityItems = appData.cartItems.length;
 
   void addToCart(GlobalKey gkImage, Item item) async {
+    // Execute the add to cart animation
     await runAddToCartAnimation(gkImage);
-    await cartKey.currentState!
-        .runCartAnimation((++_cartQuantityItems).toString());
+    await cartKey.currentState!.runCartAnimation();
 
-    setState(() {
-      bool itemInCart = false;
+    // Check if the item is already in the cart
+    CartItem? existingCartItem;
+    await _cartTabController.getCartItems();
 
-      for (var cartItem in appData.cartItems) {
-        if (cartItem.item.itemName == item.itemName) {
-          cartItem.quantity++;
-          itemInCart = true;
-          break;
-        }
+    for (var cartItem in _cartTabController.allCartItems) {
+      if (cartItem.item.id == item.id) {
+        existingCartItem = cartItem;
+        break;
       }
+    }
 
-      if (!itemInCart) {
-        appData.cartItems.add(CartItem(item: item, quantity: 1, objectId: '1'));
-      }
-    });
+    if (existingCartItem != null) {
+      // Increase quantity if item exists
+      existingCartItem.quantity += 1;
+      await _cartTabController.updateCartItem(existingCartItem);
+    } else {
+      // Add new item to cart
+      CartItem newCartItem = CartItem(
+        item: item,
+        quantity: 1,
+        objectId: '',
+      );
+      await _cartTabController.addCartItem(newCartItem);
+    }
   }
 
   @override
@@ -80,17 +92,23 @@ class _HomeTabState extends State<HomeTab> {
                 fontSize: sizeScreen.width * .065, color: Colors.white),
           ),
           actions: [
-            Padding(
-              padding: EdgeInsets.only(right: sizeScreen.width * .03),
-              child: AddToCartIcon(
-                key: cartKey,
-                icon: const Icon(Icons.shopping_cart),
-                badgeOptions: const BadgeOptions(
-                  active: true,
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                ),
-              ),
+            GetX<CartTabController>(
+              init: _cartTabController,
+              builder: (controller) {
+                return Padding(
+                  padding: EdgeInsets.only(right: sizeScreen.width * .03),
+                  child: AddToCartIcon(
+                    key: cartKey,
+                    icon: const Icon(Icons.shopping_cart),
+                    badgeOptions: BadgeOptions(
+                      active: controller.allCartItems.length > 0,
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                    ),
+                    badgeCount: controller.allCartItems.length.toString(),
+                  ),
+                );
+              },
             ),
           ],
         ),

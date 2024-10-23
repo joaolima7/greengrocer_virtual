@@ -76,9 +76,9 @@ List<String> categories = [
 
 User user = User(
   name: 'João Caetano Lima',
-  email: 'joaocaetanodev@gmail.com',
-  phone: 17982026102,
-  cpf: 07774129189,
+  email: 'joaolima@gmail.com',
+  phone: 17982026902,
+  cpf: 06674129189,
   password: '123',
 );
 
